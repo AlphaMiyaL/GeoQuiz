@@ -18,6 +18,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var trueButton: Button
     private lateinit var falseButton: Button
     private lateinit var nextButton: Button
+    private lateinit var prevButton: Button
     private lateinit var questionTextView: TextView
 
     private var currentIndex = 0
@@ -36,6 +37,7 @@ class MainActivity : AppCompatActivity() {
         trueButton = findViewById(R.id.true_button)
         falseButton = findViewById(R.id.false_button)
         nextButton = findViewById(R.id.next_button)
+        prevButton = findViewById(R.id.prev_button)
         questionTextView = findViewById(R.id.question_text_view)
 
         trueButton.setOnClickListener{view ->
@@ -46,6 +48,13 @@ class MainActivity : AppCompatActivity() {
         }
         nextButton.setOnClickListener{view: View ->
             currentIndex=(currentIndex+1)%questionList.size
+            updateQuestion()
+        }
+        prevButton.setOnClickListener { view: View ->
+            currentIndex=(currentIndex-1)
+            if(currentIndex<0){
+                currentIndex=questionList.size-1
+            }
             updateQuestion()
         }
 
