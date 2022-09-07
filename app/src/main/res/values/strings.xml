@@ -1,8 +1,15 @@
 <resources>
-    <string name="app_name">GeoQuiz</string>
-    <string name="question_text">Canberra is the capital of Australia</string>
+    <string name="app_name">BAQuiz</string>
     <string name="true_button">True</string>
     <string name="false_button">False</string>
+    <string name="next_button">Next</string>
     <string name="correct_toast">Correct!</string>
     <string name="incorrect_toast">Incorrect!</string>
+
+    <string name="question_iori">Iori is a Gehenna heavy sniper. </string>
+    <string name="question_azusa">Azusa is a light pistol wielder.</string>
+    <string name="question_ch1">Chapter 1 story takes place in Abydos.</string>
+    <string name="question_ch2">Chapter 2 story takes place in Trinity.</string>
+    <string name="question_raids">Raids last two weeks.</string>
+    <string name="question_pvp">In PVP, both sides are controlled by the AI.</string>
 </resources>
