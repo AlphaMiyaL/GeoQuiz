@@ -6,6 +6,8 @@
     <string name="prev_button">Prev</string>
     <string name="correct_toast">Correct!</string>
     <string name="incorrect_toast">Incorrect!</string>
+    <string name="questions_correct">Questions Correct: </string>
+    <string name="percent">%</string>
 
     <string name="question_iori">Iori is a Gehenna heavy sniper. </string>
     <string name="question_azusa">Azusa is a light pistol wielder.</string>
