@@ -1,5 +1,7 @@
 package AlphaMiyaL.GeoQuiz
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -9,27 +11,30 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import kotlin.math.round
 
 //Main Activity
 
-//Ch1-4 done
+//Ch1-6 done
 //Prev Button Challenge done
 //Button to ImageButton Challenge done
 //Preventing Repeat Answers Challenge done
 //Graded Quiz Challenge done
-
+//Closing Loopholes for Cheaters(done unintentionally from fixing deprecation)
 
 private const val TAG = "MainActivity"
 private const val KEY_INDEX = "index"
+private const val REQUEST_CODE_CHEAT = 0
 
 class MainActivity : AppCompatActivity() {
     private lateinit var trueButton: Button
     private lateinit var falseButton: Button
     private lateinit var nextButton: ImageButton
     private lateinit var prevButton: ImageButton
+    private lateinit var cheatButton: Button
     private lateinit var questionTextView: TextView
 
     private val quizViewModel: QuizViewModel by lazy {
@@ -48,6 +53,7 @@ class MainActivity : AppCompatActivity() {
         falseButton = findViewById(R.id.false_button)
         nextButton = findViewById(R.id.next_button)
         prevButton = findViewById(R.id.prev_button)
+        cheatButton = findViewById(R.id.cheat_button)
         questionTextView = findViewById(R.id.question_text_view)
 
         trueButton.setOnClickListener{view ->
@@ -66,8 +72,19 @@ class MainActivity : AppCompatActivity() {
             updateQuestion()
             buttonEnablerDisabler()
         }
+        cheatButton.setOnClickListener{ view: View ->
+            val answerIsTrue = quizViewModel.currentQuestionAnswer
+            val intent = CheatActivity.newIntent(this@MainActivity, answerIsTrue)
+            //startActivityForResult(intent, REQUEST_CODE_CHEAT)
+            resultLauncher.launch(intent)
+        }
 
         updateQuestion()
+    }
+
+    var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        val data: Intent? = result.data
+        quizViewModel.isCheater = data?.getBooleanExtra(EXTRA_ANSWER_SHOWN, false) ?: false
     }
 
     override fun onStart() {
@@ -131,11 +148,16 @@ class MainActivity : AppCompatActivity() {
     private fun checkAnswer(userAnswer: Boolean){
         val correctAnswer = quizViewModel.currentQuestionAnswer
         val correct = userAnswer == correctAnswer
-        val messageResId = if (correct){
-            R.string.correct_toast
-        }
-        else{
-            R.string.incorrect_toast
+//        val messageResId = if (correct){
+//            R.string.correct_toast
+//        }
+//        else{
+//            R.string.incorrect_toast
+//        }
+        val messageResId = when{
+            quizViewModel.isCheater -> R.string.judgment_toast
+            correct -> R.string.correct_toast
+            else -> R.string.incorrect_toast
         }
 
         //disable button after one answer for no repeats
