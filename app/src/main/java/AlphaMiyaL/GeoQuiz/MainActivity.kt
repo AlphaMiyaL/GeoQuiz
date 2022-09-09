@@ -80,6 +80,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         updateQuestion()
+        buttonEnablerDisabler()
     }
 
     var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
